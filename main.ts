@@ -7,6 +7,7 @@ namespace SpriteKind {
     export const draconium_coin = SpriteKind.create()
     export const portal = SpriteKind.create()
     export const Text = SpriteKind.create()
+    export const level_marker = SpriteKind.create()
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile38`, function (sprite, location) {
     game.over(false)
@@ -110,13 +111,6 @@ function start_fireballs () {
         )
     }
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`fire 1`, function (sprite, location) {
-    if (game_mode) {
-    	
-    } else {
-        sprite.sayText("press up for info", 100, false)
-    }
-})
 function start_portals () {
     for (let temporary of sprites.allOfKind(SpriteKind.portal)) {
         temporary.destroy()
@@ -187,11 +181,14 @@ function start_portals () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile3`, function (sprite, location) {
     game.over(false, effects.melt)
 })
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile39`, function (sprite, location) {
-    if (controller.up.isPressed()) {
-        sprite.sayText("test level", 500, false)
+function turn_marker_into_sprite (marker_image: Image, mySprite: Sprite) {
+    for (let location of tiles.getTilesByType(marker_image)) {
+        temporary = sprites.create(mySprite.image, mySprite.kind())
+        temporary.setFlag(SpriteFlag.Invisible, false)
+        tiles.setTileAt(location, assets.tile`fire 1`)
+        tiles.placeOnTile(temporary, location)
     }
-})
+}
 sprites.onOverlap(SpriteKind.Player, SpriteKind.portal, function (sprite, otherSprite) {
     tiles.placeOnRandomTile(Hops_and_Paw, assets.tile`myTile31`)
 })
@@ -203,6 +200,47 @@ function hide_start_position () {
     for (let value of tiles.getTilesByType(assets.tile`tile6`)) {
         tiles.setTileAt(value, assets.tile`tile0`)
     }
+    for (let temporary of sprites.allOfKind(SpriteKind.level_marker)) {
+        temporary.destroy()
+    }
+    turn_marker_into_sprite(assets.tile`myTile51`, sprites.create(assets.tile`myTile51`, SpriteKind.level_marker))
+    turn_marker_into_sprite(assets.tile`myTile39`, sprites.create(assets.tile`myTile39`, SpriteKind.level_marker))
+    turn_marker_into_sprite(assets.tile`myTile52`, sprites.create(img`
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
+        `, SpriteKind.level_marker))
+    turn_marker_into_sprite(assets.tile`myTile53`, sprites.create(img`
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
+        `, SpriteKind.level_marker))
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile16`, function (sprite, location) {
     game.over(false, effects.melt)
@@ -1093,6 +1131,19 @@ function clear_previous_enemies () {
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`tile2`, function (sprite, location) {
     game.over(true)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.level_marker, function (sprite, otherSprite) {
+    if (controller.up.isPressed()) {
+        if (otherSprite.image.equals(assets.tile`myTile39`)) {
+            sprite.sayText("test level", 500, false)
+        } else if (otherSprite.image.equals(assets.tile`myTile51`)) {
+            sprite.sayText("main levels", 500, false)
+        } else if (false) {
+        	
+        } else {
+        	
+        }
+    }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile52`, function (sprite, location) {
     if (controller.up.isPressed()) {
@@ -2328,7 +2379,7 @@ function startLevel () {
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile51`, function (sprite, location) {
     if (controller.up.isPressed()) {
-        sprite.sayText("main levels", 500, false)
+    	
     }
 })
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile23`, function (sprite, location) {
