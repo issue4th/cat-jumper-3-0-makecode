@@ -110,6 +110,34 @@ function start_fireballs () {
         true
         )
     }
+    for (let location of tiles.getTilesByType(assets.tile`myTile41`)) {
+        temporary = sprites.create(img`
+            . . . . . . . f . . . . . . . . 
+            . . . . . . . 1 f . . . . . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . d b b b b b b b b a . . . 
+            . . . b c c c c c c c c a . . . 
+            . . . b c c c c c c c c a . . . 
+            . . f b c c c f f c c c a f . . 
+            f 1 f b c c f 1 f f c c a f 1 f 
+            . f f b c c f f f f c c a f f . 
+            . . f b c c c f f c c c a f . . 
+            . . . b c c c c c c c c a . . . 
+            . . . b c c c c c c c c a . . . 
+            . . . a a a a a a a a a a . . . 
+            . . . . . . f f f f . . . . . . 
+            . . . . . . . 1 f . . . . . . . 
+            . . . . . . . f . . . . . . . . 
+            `, SpriteKind.Fireball)
+        tiles.placeOnTile(temporary, location)
+        tiles.setTileAt(location, assets.tile`tile0`)
+        animation.runMovementAnimation(
+        temporary,
+        "c 0 50 0 -50 0 0",
+        2000,
+        true
+        )
+    }
 }
 function start_portals () {
     for (let temporary of sprites.allOfKind(SpriteKind.portal)) {
@@ -184,7 +212,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`tile3`, function (sprite, loc
 function turn_marker_into_sprite (marker_image: Image, mySprite: Sprite) {
     for (let location of tiles.getTilesByType(marker_image)) {
         temporary = sprites.create(mySprite.image, mySprite.kind())
-        temporary.setFlag(SpriteFlag.Invisible, false)
+        temporary.setFlag(SpriteFlag.Invisible, true)
         tiles.setTileAt(location, assets.tile`fire 1`)
         tiles.placeOnTile(temporary, location)
     }
@@ -205,42 +233,8 @@ function hide_start_position () {
     }
     turn_marker_into_sprite(assets.tile`myTile51`, sprites.create(assets.tile`myTile51`, SpriteKind.level_marker))
     turn_marker_into_sprite(assets.tile`myTile39`, sprites.create(assets.tile`myTile39`, SpriteKind.level_marker))
-    turn_marker_into_sprite(assets.tile`myTile52`, sprites.create(img`
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 
-        `, SpriteKind.level_marker))
-    turn_marker_into_sprite(assets.tile`myTile53`, sprites.create(img`
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 
-        `, SpriteKind.level_marker))
+    turn_marker_into_sprite(assets.tile`myTile52`, sprites.create(assets.tile`myTile52`, SpriteKind.level_marker))
+    turn_marker_into_sprite(assets.tile`myTile53`, sprites.create(assets.tile`myTile53`, SpriteKind.level_marker))
 }
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile16`, function (sprite, location) {
     game.over(false, effects.melt)
@@ -380,6 +374,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile54`, function (sprite, 
         6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
         6666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666
         `)
+    controller.moveSprite(Hops_and_Paw, 80, 0)
 })
 function start_torches () {
     for (let temporary of sprites.allOfKind(SpriteKind.Torch)) {
@@ -1138,16 +1133,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.level_marker, function (sprite, 
             sprite.sayText("test level", 500, false)
         } else if (otherSprite.image.equals(assets.tile`myTile51`)) {
             sprite.sayText("main levels", 500, false)
-        } else if (false) {
-        	
+        } else if (otherSprite.image.equals(assets.tile`myTile52`)) {
+            sprite.sayText("bonus levels", 500, false)
+        } else if (otherSprite.image.equals(assets.tile`myTile53`)) {
+            sprite.sayText("bonus challenges", 500, false)
         } else {
         	
         }
-    }
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile52`, function (sprite, location) {
-    if (controller.up.isPressed()) {
-        sprite.sayText("bonus levels", 500, false)
     }
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Flower, function (sprite, otherSprite) {
@@ -1220,11 +1212,6 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.gem_coin, function (sprite, othe
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Fireball, function (sprite, otherSprite) {
     info.changeLifeBy(-2)
     otherSprite.destroy()
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile53`, function (sprite, location) {
-    if (controller.up.isPressed()) {
-        sprite.sayText("bonus challenges", 500, false)
-    }
 })
 function startLevel () {
     scene.setBackgroundImage(img`
@@ -2377,11 +2364,6 @@ function startLevel () {
     start_flowers()
     start_coins()
 }
-scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile51`, function (sprite, location) {
-    if (controller.up.isPressed()) {
-    	
-    }
-})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile23`, function (sprite, location) {
     current_level = 500
     startLevel()
@@ -2527,15 +2509,15 @@ function startBonusChallenges () {
     game_mode = true
     controller.moveSprite(Hops_and_Paw, 80, 0)
     scene.setBackgroundColor(9)
-    if (current_level == 15) {
+    if (current_level == 20) {
         tiles.setCurrentTilemap(tilemap`level47`)
-    } else if (current_level == 16) {
+    } else if (current_level == 21) {
         tiles.setCurrentTilemap(tilemap`level48`)
-    } else if (current_level == 17) {
+    } else if (current_level == 22) {
         tiles.setCurrentTilemap(tilemap`level49`)
-    } else if (current_level == 18) {
+    } else if (current_level == 23) {
         tiles.setCurrentTilemap(tilemap`level50`)
-    } else if (current_level == 19) {
+    } else if (current_level == 24) {
         tiles.setCurrentTilemap(tilemap`level51`)
     } else {
         game.over(true)
